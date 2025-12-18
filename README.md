@@ -5,7 +5,7 @@ Local retrieval-augmented generation (RAG) playground that indexes Markdown note
 ## Features
 - Recursive Markdown loader with basic hygiene filters (skips `creds`, `untitled`, empty files)
 - Disk-persisted BM25 index built via `bm25s`
-- Simple DSPy `ChainOfThought` responder wired to Azure-hosted GPT-5 deployment
+- Simple DSPy `ChainOfThought` responder
 - Lightweight API you can import: refresh the index, run BM25 search, or compose your own RAG flow
 
 ## Project layout
