@@ -57,6 +57,5 @@ Steps performed:
 - Plug the retriever into your own DSPy modules: import `search` or `RAG` from `main.py`, or instantiate `dspy.ChainOfThought` with any context you build.
 
 ## Next steps
-- Parameterize `MD_FILES` via environment variables or CLI args.
 - Add evaluation harnesses (e.g., DSPy metrics) or guardrails around responses.
 - Ship a small CLI / API layer to query the index interactively.
