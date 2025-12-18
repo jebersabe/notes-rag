@@ -1,0 +1,18 @@
+[project]
+name = "notes-rag"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "bm25s[full]>=0.2.14",
+    "dspy>=3.0.4",
+    "pystemmer>=3.0.0",
+    "python-dotenv>=1.2.1",
+]
+
+[dependency-groups]
+dev = [
+    "marimo>=0.18.4",
+    "pre-commit>=4.5.1",
+]
