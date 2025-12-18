@@ -49,7 +49,7 @@ Steps performed:
 1. Load `.env` and configure DSPy to use the Azure GPT-5-mini deployment.
 2. Load the on-disk BM25 index; if it does not exist, Markdown files are read and indexed first.
 3. Instantiate the `RAG` module (BM25 retrieval + `ChainOfThought` responder).
-4. Ask the hard-coded sample query (`"What is the latest update on QUANTA?"`) and print the model's response.
+4. Ask the hard-coded sample query (`"What are my TODOs?"`) and print the model's response.
 
 ## Programmatic usage
 - Refresh the index manually: call `get_retriever(refresh_index=True)`.
