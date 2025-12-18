@@ -29,9 +29,10 @@ pyproject.toml    # Project metadata and dependencies
 	The `pyproject.toml` already declares runtime deps (`bm25s`, `dspy`, `pystemmer`, `python-dotenv`).
 3. Create a `.env` file in the project root with the credentials your DSPy configuration expects, for example:
 	```bash
-	AZURE_OPENAI_ENDPOINT=https://<your-endpoint>.openai.azure.com/
+	AZURE_OPENAI_ENDPOINT=https://<your-endpoint>.com/
 	AZURE_OPENAI_API_KEY=<api-key>
 	AZURE_OPENAI_DEPLOYMENT=gpt-5-mini
+ 	MD_FILES=<markdown-file-path>
 	```
 	Adjust the variable names to match your DSPy / Azure setup. `dotenv` loads this file before the model is configured.
 
