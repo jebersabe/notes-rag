@@ -9,10 +9,12 @@ dependencies = [
     "dspy>=3.0.4",
     "pystemmer>=3.0.0",
     "python-dotenv>=1.2.1",
+    "textual[syntax]>=6.11.0",
 ]
 
 [dependency-groups]
 dev = [
     "marimo>=0.18.4",
     "pre-commit>=4.5.1",
+    "textual-dev>=1.8.0",
 ]

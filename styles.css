@@ -1,0 +1,16 @@
+#input_box {
+    dock: bottom;
+    height: auto;
+    width: 100%;
+    margin: 0 0 2 0;
+    align_horizontal: center;
+}
+
+#message_input {
+    width: 50%;
+    background: #343a40;
+}
+
+#send_button {
+    width: auto;
+}
