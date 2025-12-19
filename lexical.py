@@ -51,7 +51,7 @@ def tokenize_and_index_corpus(
     corpus_dict: Dict[str, str], index_path: str = "bm25s_index"
 ) -> None:
     corpus = list(corpus_dict.values())
-    corpus_tokens = bm25s.tokenize(corpus)
+    corpus_tokens = bm25s.tokenize(corpus, show_progress=False)
     retriever = bm25s.BM25(corpus=corpus)
     retriever.index(corpus_tokens)
     retriever.save(index_path)
@@ -63,6 +63,6 @@ def load_index(index_path: str) -> bm25s.BM25:
 
 
 def search_index(retriever: bm25s.BM25, query: str, top_k: int = 2) -> tuple:
-    query_tokens = bm25s.tokenize(query)
+    query_tokens = bm25s.tokenize(query, show_progress=False)
     docs, scores = retriever.retrieve(query_tokens, k=top_k)
     return docs, scores

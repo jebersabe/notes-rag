@@ -1,8 +1,10 @@
+$heavy-border: round $primary;
+
 #input_box {
     dock: bottom;
     height: auto;
     width: 100%;
-    margin: 0 0 2 0;
+    margin: 0 0 4 0;
     align_horizontal: center;
 }
 
@@ -13,4 +15,11 @@
 
 #send_button {
     width: auto;
+}
+
+#response_output {
+    dock: top;
+    align_horizontal: center;
+    border: $heavy-border;
+    margin: 2;
 }

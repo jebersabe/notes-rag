@@ -50,7 +50,7 @@ class RAG(dspy.Module):
 
 def main():
     rag = RAG()
-    question = "What is emacs"
+    question = "What is emacs?"
     response = rag(question=question)
     print(response.response)
 
