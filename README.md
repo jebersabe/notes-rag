@@ -7,11 +7,14 @@ Local retrieval-augmented generation (RAG) playground that indexes Markdown note
 - Disk-persisted BM25 index built via `bm25s`
 - Simple DSPy `ChainOfThought` responder
 - Lightweight API you can import: refresh the index, run BM25 search, or compose your own RAG flow
+- Interactive TUI (Terminal User Interface) built with Textual for real-time querying
 
 ## Project layout
 ```
 lexical.py        # Markdown IO, BM25 indexing helpers
-main.py           # Example RAG entry point using DSPy + Azure GPT-5-mini
+main.py           # RAG entry point using DSPy + Azure GPT-5-mini
+tui.py            # Interactive terminal UI for querying notes
+styles.css        # CSS styling for the TUI
 pyproject.toml    # Project metadata and dependencies
 ```
 
@@ -19,6 +22,7 @@ pyproject.toml    # Project metadata and dependencies
 - Python 3.11+
 - An Azure OpenAI (or Azure AI) GPT-5 deployment accessible via DSPy
 - A directory of Markdown notes you want to index (default path lives in `main.py`)
+- Textual library for the interactive TUI (included in dependencies)
 
 ## Setup
 1. Clone the repo and switch into it.
@@ -42,6 +46,8 @@ pyproject.toml    # Project metadata and dependencies
 - The BM25 index is stored under `INDEX_PATH` (default `bm25s_index`). Delete that folder or pass `refresh_index=True` to rebuild from scratch.
 
 ## Running the RAG demo
+
+### Command-line demo
 ```bash
 uv run python main.py
 ```
@@ -51,6 +57,18 @@ Steps performed:
 3. Instantiate the `RAG` module (BM25 retrieval + `ChainOfThought` responder).
 4. Ask the hard-coded sample query (`"What are my TODOs?"`) and print the model's response.
 
+### Interactive TUI
+For a more user-friendly experience, run the interactive terminal UI:
+```bash
+uv run python tui.py
+```
+This launches a Textual-based interface where you can:
+- Type questions in the input field
+- See responses displayed in real-time
+- Navigate with keyboard shortcuts
+
+**Note**: The TUI includes a workaround for multiprocessing compatibility issues with `tqdm` (used by `bm25s`) in async/threading contexts. If you encounter `ValueError: bad value(s) in fds_to_keep` errors, ensure the `multiprocessing.synchronize` module is mocked before imports as shown in `tui.py`.
+
 ## Programmatic usage
 - Refresh the index manually: call `get_retriever(refresh_index=True)`.
 - Retrieve documents only: `docs, scores = search_index(retriever, query, top_k=5)`.
@@ -58,4 +76,6 @@ Steps performed:
 
 ## Next steps
 - Add evaluation harnesses (e.g., DSPy metrics) or guardrails around responses.
-- Ship a small CLI / API layer to query the index interactively.
+- Enhance the TUI with chat history, streaming responses, or result persistence.
+- Add conversation context / multi-turn dialogue support.
+- Implement different retrieval strategies or hybrid search approaches.
