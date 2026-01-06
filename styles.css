@@ -18,8 +18,38 @@ $heavy-border: round $primary;
 }
 
 #response_output {
-    dock: top;
+    dock: left;
     align_horizontal: center;
     border: $heavy-border;
     margin: 2;
+}
+
+#chat_container {
+    dock: left;
+    margin: 2;
+    max-height: 70%;
+}
+
+.hidden {
+    display: none;
+}
+
+.user-message {
+    background: $primary;
+    color: $text;
+    padding: 1;
+    margin: 1;
+    align: right middle;
+    border: tall transparent;
+    width: auto;
+}
+
+.llm-message {
+    background: $surface;
+    color: $text;
+    padding: 1;
+    margin: 1;
+    border: tall transparent;
+    width: auto;
+    align: left middle;
 }

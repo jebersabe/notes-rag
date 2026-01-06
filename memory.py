@@ -111,7 +111,7 @@ class ConversationMemory:
         try:
             docs, _ = self.retriever.retrieve(query_tokens, k=top_k)
         except ValueError:
-            return ""
+            docs, _ = self.retriever.retrieve(query_tokens, k=1)
 
         # Format results
         if len(docs[0]) == 0:

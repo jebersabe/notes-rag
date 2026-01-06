@@ -3,11 +3,11 @@ from unittest.mock import MagicMock
 from main import RAG
 from textual import on
 from textual.app import App, ComposeResult
-from textual.widgets import Footer, Header, Input, Button, Markdown
-from textual.containers import Horizontal
+from textual.widgets import Footer, Header, Input, Button, Static
+from textual.containers import Horizontal, VerticalScroll
 
 
-sys.modules['multiprocessing.synchronize'] = MagicMock()
+sys.modules["multiprocessing.synchronize"] = MagicMock()
 
 
 class ChatNotes(App):
@@ -21,20 +21,26 @@ class ChatNotes(App):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Markdown("Placeholder...", id="response_output")
+        yield VerticalScroll(id="chat_container")
         with Horizontal(id="input_box"):
-            yield Input(placeholder="Ask the spirit of your notes", id="message_input")
+            yield Input(placeholder="Ask your notes", id="message_input")
             yield Button(label="Send", variant="success", id="send_button")
         yield Footer()
 
     @on(Button.Pressed, "#send_button")
     async def send_to_llm(self) -> None:
         input_widget = self.query_one("#message_input")
-        md_widget = self.query_one("#response_output")
         if not input_widget.value:
             return
+        chat_container = self.query_one("#chat_container")
+        await chat_container.mount(
+            Static(input_widget.value, classes="user-message")
+        )
         answer = self.rag(question=input_widget.value).response
-        md_widget.update(answer)
+        await chat_container.mount(
+            Static(answer, classes="llm-message")
+        )
+        input_widget.value = ""
 
 
 if __name__ == "__main__":

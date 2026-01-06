@@ -53,7 +53,7 @@ class RagSignature(dspy.Signature):
     base and memory context to answer user questions.
 
     If a question cannot be answered using the provided context,
-    respond with "I don't know".
+    let the user know that you don't have enough information to answer.
     
     """
 
