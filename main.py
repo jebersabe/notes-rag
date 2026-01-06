@@ -7,6 +7,7 @@ from lexical import (
     load_index,
     search_index,
 )
+from memory import ConversationMemory
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -14,8 +15,11 @@ load_dotenv()
 INDEX_PATH = "bm25s_index"
 MD_FILES = os.getenv("MD_FILES")
 
-lm = dspy.LM('azure_ai/gpt-5-mini')
+lm = dspy.LM("azure_ai/gpt-5-mini")
 dspy.configure(lm=lm)
+
+# Initialize conversation memory
+conversation_memory = ConversationMemory()
 
 
 def get_retriever(refresh_index: bool = False) -> bm25s.BM25:
@@ -39,13 +43,45 @@ def search(query: str, top_k: int = 2):
     return context
 
 
+def search_memory(query: str, top_k: int = 3) -> str:
+    """Search conversation history using BM25S."""
+    return conversation_memory.search(query, top_k=top_k)
+
+
+class RagSignature(dspy.Signature):
+    """You are a helpful AI assistant that uses provided knowledge 
+    base and memory context to answer user questions.
+
+    If a question cannot be answered using the provided context,
+    respond with "I don't know".
+    
+    """
+
+    kb_context: str = dspy.InputField(description="Knowledge base context")
+    memory_context: str = dspy.InputField(description="Conversation memory context")
+    question: str = dspy.InputField(description="User's question")
+    response: str = dspy.OutputField(description="Generated response to the user's")
+
+
 class RAG(dspy.Module):
     def __init__(self):
-        self.respond = dspy.ChainOfThought('context, question -> response')
+        self.rag = dspy.ChainOfThought(signature=RagSignature)
 
-    def forward(self, question):
-        context = search(question)
-        return self.respond(context=context, question=question)
+    def forward(self, question, reset_memory: bool = False):
+        if reset_memory:
+            conversation_memory.clear_history()
+
+        kb_context = search(question)
+        memory_context = search_memory(question)
+
+        response = self.rag(
+            kb_context=kb_context, memory_context=memory_context, question=question
+        )
+
+        # Save to conversation history
+        conversation_memory.add_exchange(question, response.response)
+
+        return response
 
 
 def main():

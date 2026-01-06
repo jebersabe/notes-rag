@@ -11,3 +11,4 @@ wheels/
 tmp*
 .env*
 *index*
+conversation_history.json
